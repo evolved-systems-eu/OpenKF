@@ -14,6 +14,8 @@
 #     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
 #     )
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(LIBRARY_SRC_FILES
     dummy.cpp
     motion_model/ego_motion_model.cpp

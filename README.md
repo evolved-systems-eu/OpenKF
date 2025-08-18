@@ -11,11 +11,9 @@ The library has generic template based classes for most of Kalman filter variant
 
 **LICENSE**: [GPL-3.0 license](LICENSE.md)
 
-**Author**: Mohanad Youssef ([codingcorner.org](https://codingcorner.org/))
+**Author**: Mohanad Youssef
 
 **YouTube Channel**: [https://www.youtube.com/@al-khwarizmi](https://www.youtube.com/@al-khwarizmi) 
-
-![](res/images/codingcorner_cover_image.png)
 
 ## Getting Started
 
@@ -38,3 +36,4 @@ find_package(OpenKF REQUIRED)
 target_link_libraries(<your-project-name> PUBLIC OpenKF)
 target_include_directories(<your-project-name> PUBLIC ${OPENKF_INCLUDE_DIR})
 ````
+

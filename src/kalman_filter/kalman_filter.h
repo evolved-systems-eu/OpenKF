@@ -97,13 +97,16 @@ class KalmanFilter
   ///
   /// @brief predict state with a linear process model.
   /// @param motionModel prediction motion model function
+  /// @param dt time step between state updates (unit: seconds)
   ///
   template <class Derived>
-  void predictEkf(motionmodel::MotionModel<Derived, DIM_X> const& motionModel)
+  void predictEkf(motionmodel::MotionModel<Derived, DIM_X> const& motionModel,
+                  float32_t dt = 1.0F)
   {
-    Matrix<DIM_X, DIM_X> const matFk{motionModel.getJacobianFk(m_vecX)};
-    Matrix<DIM_X, DIM_X> const matQk{motionModel.getProcessNoiseCov(m_vecX)};
-    m_vecX = motionModel.f(m_vecX);
+    Matrix<DIM_X, DIM_X> const matFk{motionModel.getJacobianFk(m_vecX, dt)};
+    Matrix<DIM_X, DIM_X> const matQk{
+        motionModel.getProcessNoiseCov(m_vecX, dt)};
+    m_vecX = motionModel.f(m_vecX, dt);
     m_matP = matFk * m_matP * matFk.transpose() + matQk;
 
     // Ensure symmetry of covariance matrix
@@ -114,16 +117,20 @@ class KalmanFilter
   /// @brief predict state with a linear process model with external input.
   /// @param motionModel prediction motion model function
   /// @param vecU input vector
+  /// @param dt time step between state updates (unit: seconds)
   ///
   template <class Derived, int32_t DIM_U>
   void predictEkf(motionmodel::MotionModelExtInput<Derived, DIM_X, DIM_U> const&
                       motionModel,
-                  Vector<DIM_U> const& vecU)
+                  Vector<DIM_U> const& vecU, float32_t dt = 1.0F)
   {
-    Matrix<DIM_X, DIM_X> const matFk{motionModel.getJacobianFk(m_vecX, vecU)};
+    Matrix<DIM_X, DIM_X> const matFk{
+        motionModel.getJacobianFk(m_vecX, vecU, dt)};
+
     Matrix<DIM_X, DIM_X> const matQk{
-        motionModel.getProcessNoiseCov(m_vecX, vecU)};
-    m_vecX = motionModel.f(m_vecX, vecU);
+        motionModel.getProcessNoiseCov(m_vecX, vecU, dt)};
+
+    m_vecX = motionModel.f(m_vecX, vecU, dt);
     m_matP = matFk * m_matP * matFk.transpose() + matQk;
 
     // Ensure symmetry of covariance matrix

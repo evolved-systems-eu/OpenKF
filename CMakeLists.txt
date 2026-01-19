@@ -34,9 +34,4 @@ if (MSVC)
 endif (MSVC)
 
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
-
-include(CTest)
-
 add_subdirectory(src)
-add_subdirectory(examples)
-add_subdirectory(tests)
